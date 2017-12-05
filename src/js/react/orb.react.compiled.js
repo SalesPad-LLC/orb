@@ -5,7 +5,8 @@
 
 'use strict';
 
-var react = typeof window === 'undefined' ? require('react') : window.React;
+var react = require('react');
+var ReactDOM = require('react-dom');
 var utils = require('../orb.utils');
 var axe = require('../orb.axe');
 var uiheaders = require('../orb.ui.header');
@@ -635,7 +636,7 @@ module.exports.PivotRow = react.createClass({
             var isleftmost = false;
 
             // If current cells are column/data headers and left most cell is not found yet
-            // and last row left most cell does not span vertically over the current one and current one is visible 
+            // and last row left most cell does not span vertically over the current one and current one is visible
             // then mark IT as the left most cell
             if (cell.visible() && layoutInfos) {
                 if (cell.dim) {

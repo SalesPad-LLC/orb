@@ -5,7 +5,8 @@
 
 'use strict';
 
-var react = typeof window === 'undefined' ? require('react') : window.React;
+var react = require('react');
+var ReactDOM = require('react-dom');
 var utils = require('../orb.utils');
 var axe = require('../orb.axe');
 var uiheaders = require('../orb.ui.header');
