@@ -95,7 +95,7 @@ module.exports.PivotTable = react.createClass({
         }
     },
     updateClasses: function() {
-        var thisnode = this.getDOMNode();
+        var thisnode = ReactDOM.findDOMNode(this);
         var classes = this.pgridwidget.pgrid.config.theme.getPivotClasses();
         thisnode.className = classes.container;
         thisnode.children[1].className = classes.table;
@@ -104,10 +104,10 @@ module.exports.PivotTable = react.createClass({
         this.synchronizeCompsWidths();
     },
     componentDidMount: function() {
-        var dataCellsContainerNode = this.refs.dataCellsContainer.getDOMNode();
-        var dataCellsTableNode = this.refs.dataCellsTable.getDOMNode();
-        var colHeadersContainerNode = this.refs.colHeadersContainer.getDOMNode();
-        var rowHeadersContainerNode = this.refs.rowHeadersContainer.getDOMNode();
+        var dataCellsContainerNode = ReactDOM.findDOMNode(this.refs.dataCellsContainer);
+        var dataCellsTableNode = ReactDOM.findDOMNode(this.refs.dataCellsTable)
+        var colHeadersContainerNode = ReactDOM.findDOMNode(this.refs.colHeadersContainer);
+        var rowHeadersContainerNode = ReactDOM.findDOMNode(this.refs.rowHeadersContainer);
 
         this.refs.horizontalScrollBar.setScrollClient(dataCellsContainerNode, function(scrollPercent) {
             var scrollAmount = Math.ceil(
@@ -138,11 +138,11 @@ module.exports.PivotTable = react.createClass({
         var scrollbar;
         var amount;
 
-        if (e.currentTarget == (elem = this.refs.colHeadersContainer.getDOMNode())) {
+        if (e.currentTarget == (elem = this.refs.colHeaders)) {
             scrollbar = this.refs.horizontalScrollBar;
             amount = e.deltaX || e.deltaY;
-        } else if ((e.currentTarget == (elem = this.refs.rowHeadersContainer.getDOMNode())) ||
-            (e.currentTarget == (elem = this.refs.dataCellsContainer.getDOMNode()))) {
+        } else if ((e.currentTarget == (elem = this.refs.rowHeaders)) ||
+            (e.currentTarget == (elem = this.refs.dataCells))) {
             scrollbar = this.refs.verticalScrollBar;
             amount = e.deltaY;
         }
@@ -187,7 +187,6 @@ module.exports.PivotTable = react.createClass({
         nodes.rowHeadersTable.size = reactUtils.getSize(nodes.rowHeadersTable.node);
 
         // get row buttons container width
-        //nodes.rowButtonsContainer.node.style.width = '';
         var rowButtonsContainerWidth = reactUtils.getSize(nodes.rowButtonsContainer.node.children[0]).width;
 
         // get array of dataCellsTable column widths
@@ -213,9 +212,6 @@ module.exports.PivotTable = react.createClass({
             nodes.rowHeadersTable.size.width += rowDiff;
             nodes.rowHeadersTable.widthArray[nodes.rowHeadersTable.widthArray.length - 1] += rowDiff;
         }
-
-        //nodes.rowButtonsContainer.node.style.width = (rowHeadersTableWidth + 1) + 'px';
-        //nodes.rowButtonsContainer.node.style.paddingRight = (rowHeadersTableWidth + 1 - rowButtonsContainerWidth + 17) + 'px';
 
         // Set dataCellsTable cells widths according to the computed dataCellsTableMaxWidthArray
         reactUtils.updateTableColGroup(nodes.dataCellsTable.node, dataCellsTableMaxWidthArray);
@@ -599,17 +595,17 @@ function setTableWidths(tblObject, newWidthArray) {
 }
 
 function clearTableWidths(tbl) {
-        if (tbl) {
-            for (var rowIndex = 0; rowIndex < tbl.rows.length; rowIndex++) {
-                var row = tbl.rows[rowIndex];
-                for (var cellIndex = 0; cellIndex < row.cells.length; cellIndex++) {
-                    row.cells[cellIndex].children[0].style.width = '';
-                }
+    if (tbl) {
+        for (var rowIndex = 0; rowIndex < tbl.rows.length; rowIndex++) {
+            var row = tbl.rows[rowIndex];
+            for (var cellIndex = 0; cellIndex < row.cells.length; cellIndex++) {
+                row.cells[cellIndex].children[0].style.width = '';
             }
-            tbl.style.width = '';
         }
+        tbl.style.width = '';
     }
-    /** @jsx React.DOM */
+}
+/** @jsx React.DOM */
 
 /* global module, require, React */
 
@@ -636,7 +632,7 @@ module.exports.PivotRow = react.createClass({
             var isleftmost = false;
 
             // If current cells are column/data headers and left most cell is not found yet
-            // and last row left most cell does not span vertically over the current one and current one is visible
+            // and last row left most cell does not span vertically over the current one and current one is visible 
             // then mark IT as the left most cell
             if (cell.visible() && layoutInfos) {
                 if (cell.dim) {
@@ -697,7 +693,7 @@ module.exports.PivotCell = react.createClass({
         this.props.pivotTableComp.collapseRow(this.props.cell);
     },
     updateCellInfos: function() {
-        var node = this.getDOMNode();
+        var node = ReactDOM.findDOMNode(this);
         var cell = this.props.cell;
         node.__orb = node.__orb || {};
 
@@ -706,7 +702,7 @@ module.exports.PivotCell = react.createClass({
             node.__orb._visible = false;
 
         } else {
-            var cellContentNode = this.refs.cellContent.getDOMNode();
+            var cellContentNode = this.refs.cellContent;
 
             var text = node.textContent;
             var propList = [];
@@ -848,38 +844,38 @@ module.exports.PivotCell = react.createClass({
 });
 
 function getClassname(compProps) {
-        var cell = compProps.cell;
-        var classname = cell.cssclass;
-        var isEmpty = cell.template === 'cell-template-empty';
+    var cell = compProps.cell;
+    var classname = cell.cssclass;
+    var isEmpty = cell.template === 'cell-template-empty';
 
-        if (!cell.visible()) {
-            classname += ' cell-hidden';
-        }
-
-        if (cell.type === uiheaders.HeaderType.SUB_TOTAL && cell.expanded) {
-            classname += ' header-st-exp';
-        }
-
-        if (cell.type === uiheaders.HeaderType.GRAND_TOTAL) {
-            if (cell.dim.depth === 1) {
-                classname += ' header-nofields';
-            } else if (cell.dim.depth > 2) {
-                classname += ' header-gt-exp';
-            }
-        }
-
-        if (compProps.leftmost) {
-            classname += ' ' + (cell.template === 'cell-template-datavalue' ? 'cell' : 'header') + '-leftmost';
-        }
-
-        if (compProps.topmost) {
-            classname += ' cell-topmost';
-        }
-
-        return classname;
+    if (!cell.visible()) {
+        classname += ' cell-hidden';
     }
-    /* global module, require, react, reactUtils */
-    /*jshint eqnull: true*/
+
+    if (cell.type === uiheaders.HeaderType.SUB_TOTAL && cell.expanded) {
+        classname += ' header-st-exp';
+    }
+
+    if (cell.type === uiheaders.HeaderType.GRAND_TOTAL) {
+        if (cell.dim.depth === 1) {
+            classname += ' header-nofields';
+        } else if (cell.dim.depth > 2) {
+            classname += ' header-gt-exp';
+        }
+    }
+
+    if (compProps.leftmost) {
+        classname += ' ' + (cell.template === 'cell-template-datavalue' ? 'cell' : 'header') + '-leftmost';
+    }
+
+    if (compProps.topmost) {
+        classname += ' cell-topmost';
+    }
+
+    return classname;
+}
+/* global module, require, react, reactUtils */
+/*jshint eqnull: true*/
 
 'use strict';
 
@@ -982,7 +978,7 @@ var dragManager = module.exports.DragManager = (function() {
                     setCurrDropIndicator(null);
 
                 } else {
-                    _dragNode = _currDragElement.getDOMNode();
+                    _dragNode = ReactDOM.findDOMNode(_currDragElement);
                 }
             }
         },
@@ -1034,7 +1030,7 @@ var dragManager = module.exports.DragManager = (function() {
 
                 reactUtils.forEach(_dropTargets, function(target) {
                     if (!foundTarget) {
-                        var tnodeRect = target.component.getDOMNode().getBoundingClientRect();
+                        var tnodeRect = ReactDOM.findDOMNode(target.component).getBoundingClientRect();
                         var isOverlap = doElementsOverlap(dragNodeRect, tnodeRect);
                         if (isOverlap) {
                             foundTarget = target;
@@ -1054,7 +1050,7 @@ var dragManager = module.exports.DragManager = (function() {
 
                                 var targetIndicator = indicator.component.props.axetype === foundTarget.component.props.axetype;
                                 if (targetIndicator && !elementOwnIndicator) {
-                                    var tnodeRect = indicator.component.getDOMNode().getBoundingClientRect();
+                                    var tnodeRect = ReactDOM.findDOMNode(indicator.component).getBoundingClientRect();
                                     var isOverlap = doElementsOverlap(dragNodeRect, tnodeRect);
                                     if (isOverlap) {
                                         foundIndicator = indicator;
@@ -1261,7 +1257,7 @@ module.exports.PivotButton = react.createClass({
         // left mouse button only
         if (e.button !== 0) return;
 
-        var filterButton = this.refs.filterButton.getDOMNode();
+        var filterButton = this.refs.filterButton;
         var filterButtonPos = reactUtils.getOffset(filterButton);
         var filterContainer = document.createElement('div');
 
@@ -1310,7 +1306,7 @@ module.exports.PivotButton = react.createClass({
             this.props.pivotTableComp.toggleFieldExpansion(this.props.axetype, this.props.field);
         } else {
 
-            var thispos = reactUtils.getOffset(this.getDOMNode());
+            var thispos = domUtils.getOffset(ReactDOM.findDOMNode(this));
 
             // inform mousedown, save start pos
             this.setState({
@@ -1355,7 +1351,7 @@ module.exports.PivotButton = react.createClass({
 
         var size = null;
         if (!this.state.dragging) {
-            size = reactUtils.getSize(this.getDOMNode());
+            size = domUtils.getSize(ReactDOM.findDOMNode(this));
         } else {
             size = this.state.size;
         }
@@ -1377,7 +1373,7 @@ module.exports.PivotButton = react.createClass({
         e.preventDefault();
     },
     updateClasses: function() {
-        this.getDOMNode().className = this.props.pivotTableComp.pgrid.config.theme.getButtonClasses().pivotButton;
+        ReactDOM.findDOMNode(this).className = this.props.pivotTableComp.pgrid.config.theme.getButtonClasses().pivotButton;
     },
     render: function() {
         var self = this;
@@ -1628,8 +1624,8 @@ module.exports.PivotTableColumnHeaders = react.createClass({
 
 module.exports.PivotTableRowHeaders = react.createClass({
     setColGroup: function(widths) {
-        var node = this.getDOMNode();
-        var colGroupNode = this.refs.colgroup.getDOMNode();
+        var node = ReactDOM.findDOMNode(this);
+        var colGroupNode = this.refs.colgroup;
         node.style.tableLayout = 'auto';
 
         colGroupNode.innerHTML = '';
@@ -1756,7 +1752,7 @@ var scrollBarMixin = {
         // drag with left mouse button
         if (e.button !== 0) return;
 
-        var thumbElem = this.refs.scrollThumb.getDOMNode();
+        var thumbElem = this.refs.scrollThumb;
         var thumbposInParent = reactUtils.getParentOffset(thumbElem);
 
         reactUtils.addClass(thumbElem, 'orb-scrollthumb-hover');
@@ -1775,7 +1771,7 @@ var scrollBarMixin = {
     onMouseUp: function() {
 
         if (this.state.mousedown) {
-            var thumbElem = this.refs.scrollThumb.getDOMNode();
+            var thumbElem = this.refs.scrollThumb;
             reactUtils.removeClass(thumbElem, 'orb-scrollthumb-hover');
         }
 
@@ -1800,7 +1796,7 @@ var scrollBarMixin = {
         if (this.scrollClient != null) {
             return reactUtils.getSize(this.scrollClient)[this.sizeProp];
         } else {
-            return reactUtils.getSize(this.getDOMNode())[this.sizeProp];
+            return reactUtils.getSize(ReactDOM.findDOMNode(this))[this.sizeProp];
         }
     },
     setScrollClient: function(scrollClient, scrollCallback) {
@@ -1931,7 +1927,7 @@ module.exports.FilterPanel = react.createClass({
         return {};
     },
     destroy: function() {
-        var container = this.getDOMNode().parentNode;
+        var container = ReactDOM.findDOMNode(this).parentNode;
         React.unmountComponentAtNode(container);
         container.parentNode.removeChild(container);
     },
@@ -1940,7 +1936,7 @@ module.exports.FilterPanel = react.createClass({
         this.destroy();
     },
     onMouseDown: function(e) {
-        var container = this.getDOMNode().parentNode;
+        var container = ReactDOM.findDOMNode(this).parentNode;
         var target = e.target;
         while (target != null) {
             if (target == container) {
@@ -1952,7 +1948,7 @@ module.exports.FilterPanel = react.createClass({
         this.destroy();
     },
     onMouseWheel: function(e) {
-        var valuesTable = this.refs.valuesTable.getDOMNode();
+        var valuesTable = this.refs.valuesTable;
         var target = e.target;
         while (target != null) {
             if (target == valuesTable) {
@@ -1973,7 +1969,7 @@ module.exports.FilterPanel = react.createClass({
         window.addEventListener('resize', this.destroy);
     },
     componentDidMount: function() {
-        this.filterManager.init(this.getDOMNode());
+        this.filterManager.init(ReactDOM.findDOMNode(this));
     },
     componentWillUnmount: function() {
         document.removeEventListener('mousedown', this.onMouseDown);
@@ -2512,8 +2508,8 @@ function FilterManager(reactComp, initialFilterObject) {
 
 module.exports.Dropdown = react.createClass({
     openOrClose: function(e) {
-        var valueNode = this.refs.valueElement.getDOMNode();
-        var valuesListNode = this.refs.valuesList.getDOMNode();
+        var valueNode = this.refs.valueElement;
+        var valuesListNode = this.refs.valuesList;
         if (e.target === valueNode && valuesListNode.style.display === 'none') {
             valuesListNode.style.display = 'block';
         } else {
@@ -2521,12 +2517,12 @@ module.exports.Dropdown = react.createClass({
         }
     },
     onMouseEnter: function() {
-        var valueNode = this.refs.valueElement.getDOMNode();
+        var valueNode = this.refs.valueElement;
         valueNode.className = "orb-tgl-btn-down";
         valueNode.style.backgroundPosition = 'right center';
     },
     onMouseLeave: function() {
-        this.refs.valueElement.getDOMNode().className = "";
+        this.refs.valueElement.className = "";
     },
     componentDidMount: function() {
         document.addEventListener('click', this.openOrClose);
@@ -2535,7 +2531,7 @@ module.exports.Dropdown = react.createClass({
         document.removeEventListener('click', this.openOrClose);
     },
     selectValue: function(e) {
-        var listNode = this.refs.valuesList.getDOMNode();
+        var listNode = this.refs.valuesList;
         var target = e.target;
         var isli = false;
         while (!isli && target != null) {
@@ -2548,7 +2544,7 @@ module.exports.Dropdown = react.createClass({
 
         if (isli) {
             var value = target.textContent;
-            var valueElement = this.refs.valueElement.getDOMNode();
+            var valueElement = this.refs.valueElement;
             if (valueElement.textContent != value) {
                 valueElement.textContent = value;
                 if (this.props.onValueChanged) {
@@ -2687,7 +2683,7 @@ var Dialog = module.exports.Dialog = react.createClass({
         this.overlayElement.className = this.props.theme.getDialogClasses(visible).overlay;
     },
     componentDidMount: function() {
-        this.overlayElement = this.getDOMNode().parentNode;
+        this.overlayElement = ReactDOM.findDOMNode(this).parentNode;
         this.setOverlayClass(true);
         this.overlayElement.addEventListener('click', this.close);
 
@@ -2756,13 +2752,13 @@ module.exports.Toolbar = react.createClass({
     componentDidMount: function() {
         for (var i = 0; i < this._toInit.length; i++) {
             var btn = this._toInit[i];
-            btn.init(this.props.pivotTableComp, this.refs[btn.ref].getDOMNode());
+            btn.init(this.props.pivotTableComp, this.refs[btn.ref]);
         }
     },
     componentDidUpdate: function() {
         for (var i = 0; i < this._toInit.length; i++) {
             var btn = this._toInit[i];
-            btn.init(this.props.pivotTableComp, this.refs[btn.ref].getDOMNode());
+            btn.init(this.props.pivotTableComp, this.refs[btn.ref]);
         }
     },
     createCallback: function(action) {

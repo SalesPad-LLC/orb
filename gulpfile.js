@@ -23,9 +23,9 @@ var cleancss = require("gulp-minify-css");
 var jasmine = require('gulp-jasmine');
 
 var pkg = require('./package.json');
-var year = new Date().getFullYear();                  
+var year = new Date().getFullYear();
 var years = '2014' + (year > 2014 ? '-' + year : '');
-var banner = 
+var banner =
           '/**\n' +
           ' * <%= pkg.name %> v<%= pkg.version %>, <%= pkg.description %>.\n' +
           ' *\n' +
@@ -37,7 +37,7 @@ var banner =
           ' */\n\n';
 
 var jshintOptions =
-          '/* global module, require, define, window, document, global, React */\n' +
+          '/* global module, require, define, window, document, global, React, ReactDOM */\n' +
           '/*jshint node: true, eqnull: true*/\n\n';
 
 var namelatest = 'orb';
@@ -67,7 +67,7 @@ gulp.task('clean', function (cb) {
     	distlatest + '*.js',
     	distlatest + '*.css',
     	distlatest + '*.map',
-    	distver + '**', 
+    	distver + '**',
 		'./src/js/react/orb.react.compiled.js',
 		distwebsitejs + '*.js',
 		distwebsitecss + '*.css'
@@ -93,7 +93,7 @@ gulp.task('less', ['clean'], function () {
 	.pipe(cleancss({keepBreaks:true}))
 	// add banner
 	.pipe(header(banner, { pkg : pkg, years: years } ))
-	
+
 	// to latest folder
 	.pipe(rename(namelatest + '.css'))
 	.pipe(gulp.dest(distlatest))
@@ -145,7 +145,8 @@ gulp.task('react', ['less'], function() {
 gulp.task('test', ['react'], function () {
     return gulp.src('test/spec/orb.query.js')
         .pipe(jasmine({
-        	verbose: true
+					verbose: true,
+					includeStackTrace: true
         }));
 });
 

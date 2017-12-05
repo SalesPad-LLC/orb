@@ -5,7 +5,7 @@
 
 'use strict';
 
-/* global module, require, React, window */
+/* global module, require, React, ReactDOM window */
 /*jshint eqnull: true*/
 
 var axe = require('./orb.axe');
@@ -133,9 +133,9 @@ module.exports = function(config) {
     this.toggleSubtotals = function(axetype) {
         if(self.pgrid.config.toggleSubtotals(axetype)) {
             buildUi();
-            return true;    
+            return true;
         }
-        return false;        
+        return false;
     };
 
     this.areSubtotalsVisible = function(axetype) {
@@ -145,7 +145,7 @@ module.exports = function(config) {
     this.toggleGrandtotal = function(axetype) {
         if(self.pgrid.config.toggleGrandtotal(axetype)) {
             buildUi();
-            return true;    
+            return true;
         }
         return false;
     };
@@ -166,7 +166,7 @@ module.exports = function(config) {
                 pgridwidget: self
             });
 
-            pivotComponent = React.render(pivottable, element);
+            pivotComponent = ReactDOM.render(pivottable, element);
         }
     };
 
@@ -198,7 +198,7 @@ module.exports = function(config) {
                 title: title,
                 comp: {
                     type: OrbReactComps.Grid,
-                    props: {                    
+                    props: {
                         headers: self.pgrid.config.getDataSourceFieldCaptions(),
                         data: data,
                         theme: self.pgrid.config.theme
@@ -224,7 +224,7 @@ module.exports = function(config) {
         var rowsHeaders = self.rows.headers;
         var columnsLeafHeaders = self.columns.leafsHeaders;
 
-        // set control layout infos		
+        // set control layout infos
         self.layout = {
             rowHeaders: {
                 width: (self.pgrid.rows.fields.length || 1) +
