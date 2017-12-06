@@ -16,9 +16,13 @@ module.exports.DropIndicator = react.createClass({
 	},
 	componentWillUnmount : function() {
 		dragManager.unregisterIndicator(this);
+		this.isMounted = false;
+	},
+	componentDidMount: function() {
+		this.isMounted = true;
 	},
 	onDragOver: function(callback) {
-		if(this.isMounted()) {
+		if(this.isMounted) {
 			this.setState({
 				isover: true
 			}, callback);
@@ -27,7 +31,7 @@ module.exports.DropIndicator = react.createClass({
 		}
 	},
 	onDragEnd: function(callback) {
-		if(this.isMounted()) {
+		if(this.isMounted) {
 			this.setState({
 				isover: false
 			}, callback);

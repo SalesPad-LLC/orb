@@ -15,14 +15,15 @@
 
     <!-- DEBUG -->
 	<link rel="stylesheet" type="text/css" href="../dist/orb.css" />
-	<script type="text/javascript" src="../deps/react-0.12.2.js"></script>
+	<script crossorigin src="https://unpkg.com/react@15.6.0/dist/react.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@15.6.0/dist/react-dom.min.js"></script>
 	<script type="text/javascript" src="../dist/orb.js"></script>
 	<!-- ***** -->
 
     <script type="text/javascript" src="demo.data.js"></script>
 
     <style type="text/css">
-    body {        
+    body {
         font-size: 1.2em;
     }
     </style>
@@ -33,7 +34,7 @@
     <button onclick="refreshData()">Refresh</button>
     <button onclick="changeTheme()">Theme</button>
     <a download="orbpivotgrid.xls" href="#" onclick="return exportToExcel(this);">Export to Excel</a>
-    
+
     <div id="rr" style="padding: 7px;"></div>
     <div id="export" style="padding: 7px;"></div>
 
@@ -54,7 +55,7 @@
 
     var config = {
         dataSource: window.demo.data,
-        canMoveFields: true, 
+        canMoveFields: true,
         dataHeadersLocation: 'columns',
         width: 1099,
         height: 611,

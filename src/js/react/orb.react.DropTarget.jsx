@@ -15,13 +15,15 @@ module.exports.DropTarget = react.createClass({
 		};
 	},
   	componentDidMount: function() {
-  		dragManager.registerTarget(this, this.props.axetype, this.onDragOver, this.onDragEnd);
+			dragManager.registerTarget(this, this.props.axetype, this.onDragOver, this.onDragEnd);
+			this.isMounted = true;
   	},
 	componentWillUnmount : function() {
 		dragManager.unregisterTarget(this);
+		this.isMounted = false;
 	},
 	onDragOver: function(callback) {
-		if(this.isMounted()) {
+		if(this.isMounted) {
 			this.setState({
 				isover: true
 			}, callback);
@@ -30,7 +32,7 @@ module.exports.DropTarget = react.createClass({
 		}
 	},
 	onDragEnd: function(callback) {
-		if(this.isMounted()) {
+		if(this.isMounted) {
 			this.setState({
 				isover: false
 			}, callback);
@@ -38,11 +40,11 @@ module.exports.DropTarget = react.createClass({
 			callback();
 		}
 	},
-	render: function() {	
+	render: function() {
 		var self = this;
 		var DropIndicator = module.exports.DropIndicator;
 
-		var buttons = this.props.buttons.map(function(button, index) {			
+		var buttons = this.props.buttons.map(function(button, index) {
 			if(index < self.props.buttons.length - 1) {
 				return [
 					<td><DropIndicator isFirst={index === 0} position={index} axetype={self.props.axetype}></DropIndicator></td>,

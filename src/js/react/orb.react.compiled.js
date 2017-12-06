@@ -155,7 +155,7 @@ module.exports.PivotTable = react.createClass({
     synchronizeCompsWidths: function() {
         var self = this;
 
-        var pivotWrapperTable = self.refs.pivotWrapperTable.getDOMNode();
+        var pivotWrapperTable = ReactDOM.findDOMNode(self.refs.pivotWrapperTable);
 
         var nodes = (function() {
             var nds = {};
@@ -166,7 +166,7 @@ module.exports.PivotTable = react.createClass({
             ].forEach(function(refname) {
                 if (self.refs[refname]) {
                     nds[refname] = {
-                        node: self.refs[refname].getDOMNode()
+                        node: ReactDOM.findDOMNode(self.refs[refname])
                     };
                     nds[refname].size = reactUtils.getSize(nds[refname].node);
                 }
@@ -1306,7 +1306,7 @@ module.exports.PivotButton = react.createClass({
             this.props.pivotTableComp.toggleFieldExpansion(this.props.axetype, this.props.field);
         } else {
 
-            var thispos = domUtils.getOffset(ReactDOM.findDOMNode(this));
+            var thispos = reactUtils.getOffset(ReactDOM.findDOMNode(this));
 
             // inform mousedown, save start pos
             this.setState({
@@ -1351,7 +1351,7 @@ module.exports.PivotButton = react.createClass({
 
         var size = null;
         if (!this.state.dragging) {
-            size = domUtils.getSize(ReactDOM.findDOMNode(this));
+            size = reactUtils.getSize(ReactDOM.findDOMNode(this));
         } else {
             size = this.state.size;
         }

@@ -137,7 +137,7 @@ module.exports.PivotTable = react.createClass({
   synchronizeCompsWidths: function() {
       var self = this;
 
-      var pivotWrapperTable = self.refs.pivotWrapperTable.getDOMNode();
+      var pivotWrapperTable = ReactDOM.findDOMNode(self.refs.pivotWrapperTable);
 
       var nodes = (function() {
         var nds = {};
@@ -146,7 +146,7 @@ module.exports.PivotTable = react.createClass({
          'toolbar', 'horizontalScrollBar', 'verticalScrollBar'].forEach(function(refname) {
           if(self.refs[refname]) {
             nds[refname] = {
-              node: self.refs[refname].getDOMNode()
+              node: ReactDOM.findDOMNode(self.refs[refname])
             };
             nds[refname].size = reactUtils.getSize(nds[refname].node);
           }
