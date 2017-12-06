@@ -19,7 +19,7 @@ var Dialog = module.exports.Dialog = react.createClass({
 
         return {
           show: function(props) {
-            React.render(dialogFactory(props), overlay);
+            ReactDOM.render(dialogFactory(props), overlay);
           }
         };
     }

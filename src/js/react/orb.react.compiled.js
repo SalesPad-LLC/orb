@@ -41,39 +41,39 @@ module.exports.PivotTable = react.createClass({
     },
     sort: function(axetype, field) {
         this.pgridwidget.sort(axetype, field);
-        this.setProps({});
+        ReactDOM.render(this);
     },
     moveButton: function(button, newAxeType, position) {
         if (this.pgridwidget.moveField(button.props.field.name, button.props.axetype, newAxeType, position)) {
-            this.setProps({});
+            ReactDOM.render(this);
         }
     },
     toggleFieldExpansion: function(axetype, field, newState) {
         if (this.pgridwidget.toggleFieldExpansion(axetype, field, newState)) {
-            this.setProps({});
+            ReactDOM.render(this);
         }
     },
     toggleSubtotals: function(axetype) {
         if (this.pgridwidget.toggleSubtotals(axetype)) {
-            this.setProps({});
+            ReactDOM.render(this);
         }
     },
     toggleGrandtotal: function(axetype) {
         if (this.pgridwidget.toggleGrandtotal(axetype)) {
-            this.setProps({});
+            ReactDOM.render(this);
         }
     },
     expandRow: function(cell) {
         cell.expand();
-        this.setProps({});
+        ReactDOM.render(this);
     },
     collapseRow: function(cell) {
         cell.subtotalHeader.collapse();
-        this.setProps({});
+        ReactDOM.render(this);
     },
     applyFilter: function(fieldname, operator, term, staticValue, excludeStatic) {
         this.pgridwidget.applyFilter(fieldname, operator, term, staticValue, excludeStatic);
-        this.setProps({});
+        ReactDOM.render(this);
     },
     registerThemeChanged: function(compCallback) {
         if (compCallback) {
@@ -1093,9 +1093,13 @@ module.exports.DropIndicator = react.createClass({
     },
     componentWillUnmount: function() {
         dragManager.unregisterIndicator(this);
+        this.isMounted = false;
+    },
+    componentDidMount: function() {
+        this.isMounted = true;
     },
     onDragOver: function(callback) {
-        if (this.isMounted()) {
+        if (this.isMounted) {
             this.setState({
                 isover: true
             }, callback);
@@ -1104,7 +1108,7 @@ module.exports.DropIndicator = react.createClass({
         }
     },
     onDragEnd: function(callback) {
-        if (this.isMounted()) {
+        if (this.isMounted) {
             this.setState({
                 isover: false
             }, callback);
@@ -1152,12 +1156,14 @@ module.exports.DropTarget = react.createClass({
     },
     componentDidMount: function() {
         dragManager.registerTarget(this, this.props.axetype, this.onDragOver, this.onDragEnd);
+        this.isMounted = true;
     },
     componentWillUnmount: function() {
         dragManager.unregisterTarget(this);
+        this.isMounted = false;
     },
     onDragOver: function(callback) {
-        if (this.isMounted()) {
+        if (this.isMounted) {
             this.setState({
                 isover: true
             }, callback);
@@ -1166,7 +1172,7 @@ module.exports.DropTarget = react.createClass({
         }
     },
     onDragEnd: function(callback) {
-        if (this.isMounted()) {
+        if (this.isMounted) {
             this.setState({
                 isover: false
             }, callback);
@@ -1272,7 +1278,7 @@ module.exports.PivotButton = react.createClass({
         filterContainer.style.left = filterButtonPos.x + 'px';
         document.body.appendChild(filterContainer);
 
-        React.render(filterPanel, filterContainer);
+        ReactDOM.render(filterPanel, filterContainer);
 
         // prevent event bubbling (to prevent text selection while dragging for example)
         e.stopPropagation();
@@ -2673,7 +2679,7 @@ var Dialog = module.exports.Dialog = react.createClass({
 
             return {
                 show: function(props) {
-                    React.render(dialogFactory(props), overlay);
+                    ReactDOM.render(dialogFactory(props), overlay);
                 }
             };
         }

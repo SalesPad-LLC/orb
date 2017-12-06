@@ -39,7 +39,7 @@ module.exports.PivotButton = react.createClass({
         filterContainer.style.left = filterButtonPos.x + 'px';
         document.body.appendChild(filterContainer);
 
-        React.render(filterPanel, filterContainer);
+        ReactDOM.render(filterPanel, filterContainer);
 
 		// prevent event bubbling (to prevent text selection while dragging for example)
 		e.stopPropagation();
