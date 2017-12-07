@@ -66,11 +66,11 @@
             module.exports.export = _dereq_('./orb.export.excel');
 
         }, {
-            "./orb.export.excel": 192,
-            "./orb.pgrid": 194,
-            "./orb.query": 195,
-            "./orb.ui.pgridwidget": 201,
-            "./orb.utils": 203
+            "./orb.export.excel": 191,
+            "./orb.pgrid": 193,
+            "./orb.query": 194,
+            "./orb.ui.pgridwidget": 200,
+            "./orb.utils": 202
         }],
         2: [function(_dereq_, module, exports) {
             (function(process) {
@@ -16672,13 +16672,6 @@
         }],
         187: [function(_dereq_, module, exports) {
 
-            module.exports = _dereq_('./lib/React');
-
-        }, {
-            "./lib/React": 163
-        }],
-        188: [function(_dereq_, module, exports) {
-
 
 
 
@@ -16795,7 +16788,7 @@
             }
 
         }, {}],
-        189: [function(_dereq_, module, exports) {
+        188: [function(_dereq_, module, exports) {
 
 
 
@@ -16939,10 +16932,10 @@
             module.exports.Type = AxeType;
 
         }, {
-            "./orb.dimension": 191,
-            "./orb.utils": 203
+            "./orb.dimension": 190,
+            "./orb.utils": 202
         }],
-        190: [function(_dereq_, module, exports) {
+        189: [function(_dereq_, module, exports) {
 
 
 
@@ -17426,13 +17419,13 @@
                 };
             };
         }, {
-            "./orb.aggregation": 188,
-            "./orb.axe": 189,
-            "./orb.filtering": 193,
-            "./orb.themes": 197,
-            "./orb.utils": 203
+            "./orb.aggregation": 187,
+            "./orb.axe": 188,
+            "./orb.filtering": 192,
+            "./orb.themes": 196,
+            "./orb.utils": 202
         }],
-        191: [function(_dereq_, module, exports) {
+        190: [function(_dereq_, module, exports) {
 
 
 
@@ -17484,7 +17477,7 @@
             };
 
         }, {}],
-        192: [function(_dereq_, module, exports) {
+        191: [function(_dereq_, module, exports) {
 
 
 
@@ -17627,11 +17620,11 @@
                         docFooter);
             };
         }, {
-            "./orb.themes": 197,
-            "./orb.ui.header": 200,
-            "./orb.utils": 203
+            "./orb.themes": 196,
+            "./orb.ui.header": 199,
+            "./orb.utils": 202
         }],
-        193: [function(_dereq_, module, exports) {
+        192: [function(_dereq_, module, exports) {
 
 
 
@@ -17776,9 +17769,9 @@
             };
 
         }, {
-            "./orb.utils": 203
+            "./orb.utils": 202
         }],
-        194: [function(_dereq_, module, exports) {
+        193: [function(_dereq_, module, exports) {
 
 
 
@@ -18114,13 +18107,13 @@
             };
 
         }, {
-            "./orb.axe": 189,
-            "./orb.config": 190,
-            "./orb.filtering": 193,
-            "./orb.query": 195,
-            "./orb.utils": 203
+            "./orb.axe": 188,
+            "./orb.config": 189,
+            "./orb.filtering": 192,
+            "./orb.query": 194,
+            "./orb.utils": 202
         }],
-        195: [function(_dereq_, module, exports) {
+        194: [function(_dereq_, module, exports) {
 
 
 
@@ -18480,11 +18473,11 @@
             };
 
         }, {
-            "./orb.aggregation": 188,
-            "./orb.axe": 189,
-            "./orb.utils": 203
+            "./orb.aggregation": 187,
+            "./orb.axe": 188,
+            "./orb.utils": 202
         }],
-        196: [function(_dereq_, module, exports) {
+        195: [function(_dereq_, module, exports) {
 
 
 
@@ -18503,7 +18496,7 @@
                 };
             };
         }, {}],
-        197: [function(_dereq_, module, exports) {
+        196: [function(_dereq_, module, exports) {
 
 
 
@@ -18630,7 +18623,7 @@
             }());
 
         }, {}],
-        198: [function(_dereq_, module, exports) {
+        197: [function(_dereq_, module, exports) {
 
 
 
@@ -18698,10 +18691,10 @@
             };
 
         }, {
-            "./orb.axe": 189,
-            "./orb.ui.header": 200
+            "./orb.axe": 188,
+            "./orb.ui.header": 199
         }],
-        199: [function(_dereq_, module, exports) {
+        198: [function(_dereq_, module, exports) {
 
 
 
@@ -18861,11 +18854,11 @@
             };
 
         }, {
-            "./orb.axe": 189,
-            "./orb.ui.axe": 198,
-            "./orb.ui.header": 200
+            "./orb.axe": 188,
+            "./orb.ui.axe": 197,
+            "./orb.ui.header": 199
         }],
-        200: [function(_dereq_, module, exports) {
+        199: [function(_dereq_, module, exports) {
 
 
 
@@ -19164,10 +19157,10 @@
             };
 
         }, {
-            "./orb.axe": 189,
-            "./orb.state": 196
+            "./orb.axe": 188,
+            "./orb.state": 195
         }],
-        201: [function(_dereq_, module, exports) {
+        200: [function(_dereq_, module, exports) {
 
 
 
@@ -19402,14 +19395,14 @@
             };
 
         }, {
-            "./orb.axe": 189,
-            "./orb.pgrid": 194,
-            "./orb.ui.cols": 199,
-            "./orb.ui.header": 200,
-            "./orb.ui.rows": 202,
-            "./react/orb.react.compiled": 204
+            "./orb.axe": 188,
+            "./orb.pgrid": 193,
+            "./orb.ui.cols": 198,
+            "./orb.ui.header": 199,
+            "./orb.ui.rows": 201,
+            "./react/orb.react.compiled": 203
         }],
-        202: [function(_dereq_, module, exports) {
+        201: [function(_dereq_, module, exports) {
 
 
 
@@ -19521,11 +19514,11 @@
             };
 
         }, {
-            "./orb.axe": 189,
-            "./orb.ui.axe": 198,
-            "./orb.ui.header": 200
+            "./orb.axe": 188,
+            "./orb.ui.axe": 197,
+            "./orb.ui.header": 199
         }],
-        203: [function(_dereq_, module, exports) {
+        202: [function(_dereq_, module, exports) {
             (function(global) {
 
 
@@ -19664,7 +19657,7 @@
 
             }).call(this, typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
         }, {}],
-        204: [function(_dereq_, module, exports) {
+        203: [function(_dereq_, module, exports) {
 
             var react = _dereq_('react');
             var ReactDOM = _dereq_('react-dom');
@@ -22514,16 +22507,16 @@
             }, ];
 
         }, {
-            "../orb.axe": 189,
-            "../orb.export.excel": 192,
-            "../orb.filtering": 193,
-            "../orb.ui.header": 200,
-            "../orb.utils": 203,
-            "./orb.react.utils": 205,
-            "react": 187,
+            "../orb.axe": 188,
+            "../orb.export.excel": 191,
+            "../orb.filtering": 192,
+            "../orb.ui.header": 199,
+            "../orb.utils": 202,
+            "./orb.react.utils": 204,
+            "react": undefined,
             "react-dom": 33
         }],
-        205: [function(_dereq_, module, exports) {
+        204: [function(_dereq_, module, exports) {
 
 
 
